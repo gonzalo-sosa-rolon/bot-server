@@ -7,8 +7,8 @@ import common.Action;
 
 public class BotServer {
 
-	private SmartSocketServer _server;
-	private List<ClientConnection> clients;
+	private final SmartSocketServer _server;
+	private final List<ClientConnection> clients;
 
 	public BotServer(int port) {
 		this._server = new SmartSocketServer(port);
@@ -19,13 +19,33 @@ public class BotServer {
 
 		try {
 			this._server.init();
-			ClientConnection client = this._server.accept();
-			this.clients.add(client);
 
 			while (true) {
-				Action action = client.receive();
-				if (action != null) {
+				ClientConnection client = this._server.accept();
 
+				ClientThread clientThread = new ClientThread(client);
+				clientThread.start();	
+
+				this.clients.add(client);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static class ClientThread extends Thread {
+
+		private final ClientConnection _client;
+
+		public ClientThread(ClientConnection client) {
+			this._client = client;
+		}
+
+		@Override
+		public void run() {
+			while (true) {
+				Action action = this._client.receive();
+				if (action != null) {
 					try {
 						action.exec();
 					} catch (Exception e) {
@@ -33,9 +53,7 @@ public class BotServer {
 					}
 				}
 			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
+
 }

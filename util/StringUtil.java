@@ -10,7 +10,11 @@ public class StringUtil {
 		Integer result = null;
 
 		if (value != null) {
-			result = Integer.parseInt(value);
+			try {
+				result = Integer.parseInt(value);
+			} catch (Exception e) {
+				result = null;
+			}
 		}
 
 		return result;

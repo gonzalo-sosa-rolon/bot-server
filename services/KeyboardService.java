@@ -7,8 +7,16 @@ import java.util.List;
 
 public class KeyboardService {
 
-	private Robot _robot;
 	private static KeyboardService instance = null;
+	public static KeyboardService getInstance() {
+		if (KeyboardService.instance == null) {
+			KeyboardService.instance = new KeyboardService();
+		}
+
+		return KeyboardService.instance;
+	}
+
+	private Robot _robot;
 
 	private KeyboardService() {
 		try {
@@ -462,13 +470,5 @@ public class KeyboardService {
 				}
 			}
 		}
-	}
-
-	public static KeyboardService getInstance() {
-		if (KeyboardService.instance == null) {
-			KeyboardService.instance = new KeyboardService();
-		}
-
-		return KeyboardService.instance;
 	}
 }

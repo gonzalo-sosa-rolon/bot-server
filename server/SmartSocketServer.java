@@ -8,8 +8,8 @@ import model.BusinessException;
 
 public class SmartSocketServer {
 
-	private ServerSocket _socket;
 	private int _port;
+	private ServerSocket _socket;
 
 	public SmartSocketServer(int port) {
 		this._socket = null;

@@ -9,9 +9,16 @@ import javax.swing.JOptionPane;
 public class BotClient {
 
 	private ObjectOutputStream out;
+	private final Integer _port;
+	private final String _host;
 
-	public void run(int port) throws Exception {
-		Socket requestSocket = new Socket("localhost", port);
+	public BotClient(String host, int port) {
+		this._port = port;
+		this._host = host;
+	}
+
+	public void run() throws Exception {
+		Socket requestSocket = new Socket(this._host, this._port);
 
 		this.out = new ObjectOutputStream(requestSocket.getOutputStream());
 		this.out.flush();

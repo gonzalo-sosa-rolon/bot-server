@@ -9,9 +9,19 @@ import model.Coordinates;
 
 public class MouseService {
 
+	private static MouseService instance;
+	public static MouseService getInstance() {
+		
+		if (instance == null) {
+			instance = new MouseService();
+		}
+		
+		return instance;		
+	}
+	
 	private Robot _robot;
-
-	public MouseService() {
+	
+	private MouseService() {
 		try {
 			this._robot = new Robot();
 		} catch (Exception e) {

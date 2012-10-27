@@ -24,10 +24,8 @@ public class Main {
 
 		try {
 			Thread.sleep(1500);
-
-			BotClient client = new BotClient();
-
-			client.run(3210);
+			BotClient client = new BotClient("localhost", 3210);
+			client.run();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

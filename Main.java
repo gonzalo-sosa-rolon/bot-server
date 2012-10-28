@@ -8,26 +8,35 @@ public class Main {
 
 	public static class ServerThread extends Thread {
 
+		private final Integer _port;
+
+		public ServerThread(Integer port) {
+			this._port = port;
+		}
+
 		@Override
 		public void run() {
-			BotServer server = new BotServer(3210);
-
+			BotServer server = new BotServer(this._port);
 			server.run();
 		}
 	}
 
 	public static void main(String args[]) {
 
-		ServerThread server = new ServerThread();
+		Boolean runServer = false;
+		Integer port = 3250;
 
-		server.start();
+		if (runServer) {
+			ServerThread server = new ServerThread(port);
 
-		try {
-			Thread.sleep(1500);
-			BotClient client = new BotClient("localhost", 3210);
-			client.run();
-		} catch (Exception e) {
-			e.printStackTrace();
+			server.start();
+		} else {
+			try {				
+				BotClient client = new BotClient("localhost", port);
+				client.run();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

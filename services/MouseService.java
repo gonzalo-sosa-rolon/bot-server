@@ -4,6 +4,7 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.PointerInfo;
 import java.awt.Robot;
+import java.awt.event.InputEvent;
 
 import model.Coordinates;
 
@@ -11,16 +12,16 @@ public class MouseService {
 
 	private static MouseService instance;
 	public static MouseService getInstance() {
-		
-		if (instance == null) {
-			instance = new MouseService();
+
+		if (MouseService.instance == null) {
+			MouseService.instance = new MouseService();
 		}
-		
-		return instance;		
+
+		return MouseService.instance;		
 	}
-	
+
 	private Robot _robot;
-	
+
 	private MouseService() {
 		try {
 			this._robot = new Robot();
@@ -40,6 +41,20 @@ public class MouseService {
 		result.y = b.y;
 
 		return result;
+	}
+
+	public void scrollMouse(int scroll) {
+		this._robot.mouseWheel(scroll);
+	}
+
+	public void clickLeftButton() {
+		this._robot.mousePress(InputEvent.BUTTON1_MASK);
+		this._robot.mouseRelease(InputEvent.BUTTON1_MASK);
+	}
+
+	public void clickRightButton() {
+		this._robot.mousePress(InputEvent.BUTTON3_MASK);
+		this._robot.mouseRelease(InputEvent.BUTTON3_MASK);
 	}
 
 	public void moveMouse(int deltaX, int deltaY) {

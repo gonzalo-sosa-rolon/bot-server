@@ -10,12 +10,14 @@ import common.BotProtocol;
 
 public class ClientConnection {
 
-	private Socket _connection;
+	private final Socket _connection;
 	private ObjectInputStream _in;
+	private Boolean running;
 
 	public ClientConnection(Socket connection) {
 		this._connection = connection;
 		this._in = null;
+		this.running = true;
 	}
 
 	public Action receive() {
@@ -27,9 +29,14 @@ public class ClientConnection {
 				this._in = new ObjectInputStream(this._connection.getInputStream());
 			}
 
-			String message = (String) this._in.readObject();
-			result = this.parseAction(message);
+			if (!this._connection.isClosed()) {
+				String message = (String) this._in.readObject();
+				result = this.parseAction(message);
+			} else {
+				this.running = false;
+			}
 		} catch (Exception e) {
+			this.running = false;
 			e.printStackTrace();
 		}
 
@@ -37,7 +44,7 @@ public class ClientConnection {
 	}
 
 	public void sendMessage(String message) {
-
+		//TODO implement
 	}
 
 	private Action parseAction(String message) {
@@ -49,5 +56,9 @@ public class ClientConnection {
 		}
 
 		return result;
+	}
+
+	public boolean isRunning() {
+		return this.running;
 	}
 }

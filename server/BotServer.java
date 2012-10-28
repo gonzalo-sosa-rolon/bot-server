@@ -43,7 +43,7 @@ public class BotServer {
 
 		@Override
 		public void run() {
-			while (true) {
+			while (this._client.isRunning()) {
 				Action action = this._client.receive();
 				if (action != null) {
 					try {

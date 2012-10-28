@@ -9,6 +9,9 @@ import util.StringUtil;
 public class BotProtocol {
 
 	private static final String moveMouseHeader = "moveMouse";
+	private static final String clickLeftMouseHeader = "clickLeftMouse";
+	private static final String clickRightMouseHeader = "clickRightMouse";
+	private static final String scrollMouseHeader = "scrollMouse";
 	private static final String writeTextHeader = "writeText";
 	private static final String delimiter = "&"; 
 
@@ -35,6 +38,27 @@ public class BotProtocol {
 				result = BotProtocol.parseWriteTextAction(values);
 			} else if (ObjectUtil.equals(header, BotProtocol.moveMouseHeader)) {
 				result = parseMoveMouseAction(values);
+			} else if (ObjectUtil.equals(header, BotProtocol.clickLeftMouseHeader)) {
+				result = new ClickLeftMouseButtonAction();
+			} else if (ObjectUtil.equals(header, BotProtocol.clickRightMouseHeader)) {
+				result = new ClickRightMouseButtonAction();
+			} else if (ObjectUtil.equals(header, BotProtocol.scrollMouseHeader)) {
+				result = BotProtocol.parseScrollMouse(values);
+			}
+		}
+
+		return result;
+	}
+
+	private static Action parseScrollMouse(List<String> values) {
+
+		Action result = null;
+
+		if (values != null && values.size() > 1) {
+			Integer scroll = StringUtil.stringToInt(values.get(1));
+
+			if (scroll != null) {
+				result = new ScrollMouseAction(scroll);
 			}
 		}
 
@@ -52,6 +76,24 @@ public class BotProtocol {
 		return result;
 	}
 
+	public static String getScrollMessage(Integer scroll) {
+
+		String result = null;
+
+		if (scroll != null) {
+			result = BotProtocol.scrollMouseHeader + "&" + scroll;
+		}
+
+		return result;		
+	}
+
+	public static String getClickLeftButtonMessage() {
+		return BotProtocol.clickLeftMouseHeader;
+	}
+
+	public static String getClickRightButtonMessage() {
+		return BotProtocol.clickRightMouseHeader;
+	}
 
 	public static String getWriteTextMessage(String text) {
 

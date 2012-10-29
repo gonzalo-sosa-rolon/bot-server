@@ -8,11 +8,11 @@ import common.Action;
 public class BotServer {
 
 	private final SmartSocketServer _server;
-	private final List<ClientConnection> clients;
+	private final List<ClientConnection> _clients;
 
 	public BotServer(int port) {
 		this._server = new SmartSocketServer(port);
-		this.clients = new ArrayList<ClientConnection>();
+		this._clients = new ArrayList<ClientConnection>();
 	}
 
 	public void run() {
@@ -26,7 +26,7 @@ public class BotServer {
 				ClientThread clientThread = new ClientThread(client);
 				clientThread.start();	
 
-				this.clients.add(client);
+				this._clients.add(client);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

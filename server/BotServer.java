@@ -16,7 +16,6 @@ public class BotServer {
 	}
 
 	public void run() {
-
 		try {
 			this._server.init();
 

@@ -22,7 +22,7 @@ public class SmartSocketServer {
 
 		if (this._socket == null) {
 			throw new BusinessException(
-					"Error: you neet to init the server before try to accept clients");
+					"Error: you need to init the server before try to accept clients");
 		}
 
 		try {
